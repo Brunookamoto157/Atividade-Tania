@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <script>
+    function bissecao() {
+    //Armazena os valores de entrada do usuário: função, Xa, Xb, e a precisão
+        var fun = document.getElementById("fun").value;
+        //Realiza a validação dos termos da função
+    var validChars = /^[0-9()+\-*\/\^xsinxcosxtanx]+$/;
+    if (!validChars.test(fun)){
+        document.getElementById("resultado").innerHTML = "A função digitada é inválida!";
+        return;
+    }
+    
+       
+        var a = parseFloat(document.getElementById("a").value);
+        var b = parseFloat(document.getElementById("b").value);
+        var pre = parseFloat(document.getElementById("pre").value);
+    
+        var fa = eval(fun.replace(/x/g, a));
+        var fb = eval(fun.replace(/x/g, b));
+    
+        if (fa * fb > 0) {
+            document.getElementById("resultado").innerHTML = "Não há raiz no intervalo [a, b].";
+            return;
+        }
+    
+        var x, fx;
+        var inte = 0;
+    
+        do {
+            x = (a + b) / 2;
+            fx = eval(fun.replace(/x/g, x));
+    
+            if (fx == 0 || (b - a) / 2 < pre) {
+                document.getElementById("resultado").innerHTML = "Raiz: " + x + " encontrado em " + inte + " inte.";
+                return;
+            }
+    
+            inte++;
+    document.getElementById("interacoes").innerHTML += "Iteração " + inte + ": x=" + x + ", f(x)=" + fx + "<br>";
+    
+            if (fa * fx < 0) {
+                b = x;
+                fb = fx;
+            } else {
+                a = x;
+                fa = fx;
+            }
+        } while (true);
+    }
+  </script>
+<head>
+<title>Zero de Funções</title>
+</head>
+<body>
+<h1>Zero de Funções</h1>
+<label for="fun">Digite a Função: </label>
+<input type="text" id="fun" placeholder="Exemplo: x^2/4">
+<br><br>
+<label for="a">Valor inicial X (A): </label>
+<input type="number" id="a">
+<br><br>
+<label for="b">Valor final X (B): </label>
+<input type="number" id="b">
+<br><br>
+<label for="pre">Precisão: </label>
+<input type="number" id="pre">
+<br><br>
+<button onclick="bissecao()">Calcular</button>
+<br><br>
+<p id="resultado"></p>
+  <div id="interacoes"></div>
+</body>
+</html>
